@@ -1,0 +1,340 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+
+// TODO: Replace with your real email address
+const CONTACT_EMAIL = 'twoj@email.com';
+---
+
+<Layout title="ZLAVIA – Feedback społeczności" description="Przekaż feedback o ZLAVIA, zgłoś błędy, pomysły i propozycje kart, kafelków oraz potworów.">
+  <Nav />
+
+  <main style="min-height:100vh;padding:7rem 1.25rem 4rem;background:radial-gradient(circle at 20% 0%, rgba(212,175,55,0.06), transparent 45%), radial-gradient(circle at 80% 15%, rgba(139,26,26,0.1), transparent 35%), var(--color-bg-deep);">
+    <div style="max-width:860px;margin:0 auto;">
+
+      <!-- Header -->
+      <p class="badge" data-pl="Dla społeczności" data-en="For the community">Dla społeczności</p>
+      <h1 class="page-title" data-pl="Centrum Feedbacku ZLAVIA" data-en="ZLAVIA Feedback Hub">Centrum Feedbacku ZLAVIA</h1>
+      <p class="page-lead" data-pl="Pomóż rozwijać projekt: zgłaszaj błędy, proponuj nowe mechaniki i współtwórz zawartość świata. Każdy głos pomaga kierować rozwojem gry." data-en="Help shape the project: report bugs, suggest mechanics, and co-create game content. Every voice helps guide development.">Pomóż rozwijać projekt: zgłaszaj błędy, proponuj nowe mechaniki i współtwórz zawartość świata. Każdy głos pomaga kierować rozwojem gry.</p>
+
+      <!-- ── MAIN FEEDBACK FORM ───────────────────────────────── -->
+      <section class="card" style="margin-bottom:1.5rem;">
+        <h2 class="form-section-title" data-pl="Wyślij feedback" data-en="Send feedback">Wyślij feedback</h2>
+        <p style="color:var(--color-text-muted);font-size:0.9rem;margin-bottom:1.25rem;" data-pl="Błąd, propozycja lub spostrzeżenie — opisz co zauważyłeś." data-en="Bug, suggestion, or observation — describe what you noticed.">Błąd, propozycja lub spostrzeżenie — opisz co zauważyłeś.</p>
+
+        <form action={`https://formsubmit.co/${CONTACT_EMAIL}`} method="POST" class="zlv-form" id="form-general">
+          <input type="hidden" name="_subject" value="[ZLAVIA Feedback]" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+
+          <div class="field-row">
+            <label class="field">
+              <span class="field-label" data-pl="Typ zgłoszenia" data-en="Submission type">Typ zgłoszenia</span>
+              <select name="type" required class="form-select">
+                <option value="bug" data-pl="Błąd" data-en="Bug">Błąd</option>
+                <option value="suggestion" data-pl="Propozycja" data-en="Suggestion">Propozycja</option>
+                <option value="observation" data-pl="Spostrzeżenie" data-en="Observation">Spostrzeżenie</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label" data-pl="Temat" data-en="Subject">Temat</span>
+              <input type="text" name="subject" required class="form-input" data-pl-placeholder="Krótki tytuł zgłoszenia" data-en-placeholder="Short title" placeholder="Krótki tytuł zgłoszenia" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field-label" data-pl="Szczegóły" data-en="Details">Szczegóły</span>
+            <textarea name="message" required rows="5" class="form-input" data-pl-placeholder="Opisz dokładnie swój feedback..." data-en-placeholder="Describe your feedback in detail..." placeholder="Opisz dokładnie swój feedback..."></textarea>
+          </label>
+
+          <label class="field">
+            <span class="field-label" data-pl="Email (opcjonalnie)" data-en="Email (optional)">Email (opcjonalnie)</span>
+            <input type="email" name="email" class="form-input" data-pl-placeholder="twoj@email.com" data-en-placeholder="you@email.com" placeholder="twoj@email.com" />
+          </label>
+
+          <button type="submit" class="btn-gold" style="justify-content:center;" data-pl="Wyślij feedback" data-en="Send feedback">Wyślij feedback</button>
+          <p class="form-success" id="success-general" style="display:none;" data-pl="Dziękujemy! Zgłoszenie zostało wysłane." data-en="Thank you! Your submission has been sent.">Dziękujemy! Zgłoszenie zostało wysłane.</p>
+        </form>
+      </section>
+
+      <!-- ── COMMUNITY CONTENT ACCORDIONS ───────────────────── -->
+      <h2 class="form-section-title" style="margin-bottom:1rem;" data-pl="Współtwórz zawartość gry" data-en="Co-create game content">Współtwórz zawartość gry</h2>
+      <p style="color:var(--color-text-muted);font-size:0.9rem;margin-bottom:1.25rem;" data-pl="Zaproponuj własną kartę postaci, kafelek mapy lub potwora. Najciekawsze propozycje trafią do gry." data-en="Propose your own character card, map tile, or monster. The best ideas may make it into the game.">Zaproponuj własną kartę postaci, kafelek mapy lub potwora. Najciekawsze propozycje trafią do gry.</p>
+
+      <!-- Character card -->
+      <details class="accordion card" style="margin-bottom:0.75rem;">
+        <summary class="accordion-header">
+          <span style="font-size:1.25rem;">⚔️</span>
+          <span data-pl="Zaproponuj kartę postaci" data-en="Suggest a character card">Zaproponuj kartę postaci</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <p style="color:var(--color-text-muted);font-size:0.88rem;margin-bottom:1rem;" data-pl="Opisz klasę, unikalną mechanikę i pomysł na balans w kontekście istniejących postaci." data-en="Describe the class, unique mechanic, and balancing ideas in context of existing characters.">Opisz klasę, unikalną mechanikę i pomysł na balans w kontekście istniejących postaci.</p>
+          <form action={`https://formsubmit.co/${CONTACT_EMAIL}`} method="POST" class="zlv-form">
+            <input type="hidden" name="_subject" value="[ZLAVIA] Propozycja karty postaci" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="form_type" value="character_card" />
+
+            <div class="field-row">
+              <label class="field">
+                <span class="field-label" data-pl="Nazwa postaci" data-en="Character name">Nazwa postaci</span>
+                <input type="text" name="character_name" required class="form-input" data-pl-placeholder="np. Zielarka" data-en-placeholder="e.g. Herbalist" placeholder="np. Zielarka" />
+              </label>
+              <label class="field">
+                <span class="field-label" data-pl="Rola na polu bitwy" data-en="Battlefield role">Rola na polu bitwy</span>
+                <select name="role" class="form-select">
+                  <option data-pl="Wsparcie" data-en="Support">Wsparcie</option>
+                  <option data-pl="Szturmowiec" data-en="Striker">Szturmowiec</option>
+                  <option data-pl="Obrońca" data-en="Defender">Obrońca</option>
+                  <option data-pl="Kontroler" data-en="Controller">Kontroler</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="field">
+              <span class="field-label" data-pl="Unikalna mechanika" data-en="Unique mechanic">Unikalna mechanika</span>
+              <textarea name="mechanic" required rows="3" class="form-input" data-pl-placeholder="Co wyróżnia tę postać spośród innych?" data-en-placeholder="What sets this character apart from others?" placeholder="Co wyróżnia tę postać spośród innych?"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label" data-pl="Pomysły na umiejętności (opcjonalnie)" data-en="Skill ideas (optional)">Pomysły na umiejętności (opcjonalnie)</span>
+              <textarea name="skills" rows="3" class="form-input" data-pl-placeholder="Opisz 1–3 umiejętności aktywne lub pasywne..." data-en-placeholder="Describe 1–3 active or passive skills..." placeholder="Opisz 1–3 umiejętności aktywne lub pasywne..."></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label" data-pl="Email (opcjonalnie)" data-en="Email (optional)">Email (opcjonalnie)</span>
+              <input type="email" name="email" class="form-input" data-pl-placeholder="twoj@email.com" data-en-placeholder="you@email.com" placeholder="twoj@email.com" />
+            </label>
+
+            <button type="submit" class="btn-outline" data-pl="Wyślij propozycję →" data-en="Submit proposal →">Wyślij propozycję →</button>
+          </form>
+        </div>
+      </details>
+
+      <!-- Map tile -->
+      <details class="accordion card" style="margin-bottom:0.75rem;">
+        <summary class="accordion-header">
+          <span style="font-size:1.25rem;">🗺️</span>
+          <span data-pl="Zaproponuj kafelek mapy" data-en="Suggest a map tile">Zaproponuj kafelek mapy</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <p style="color:var(--color-text-muted);font-size:0.88rem;margin-bottom:1rem;" data-pl="Dodaj nowy teren słowiańskiego świata: opisz efekty ruchu, zasadzek i klimat lokacji." data-en="Add new terrain to the Slavic world: describe movement effects, ambush potential, and location vibe.">Dodaj nowy teren słowiańskiego świata: opisz efekty ruchu, zasadzek i klimat lokacji.</p>
+          <form action={`https://formsubmit.co/${CONTACT_EMAIL}`} method="POST" class="zlv-form">
+            <input type="hidden" name="_subject" value="[ZLAVIA] Propozycja kafelka mapy" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="form_type" value="map_tile" />
+
+            <div class="field-row">
+              <label class="field">
+                <span class="field-label" data-pl="Nazwa terenu" data-en="Terrain name">Nazwa terenu</span>
+                <input type="text" name="tile_name" required class="form-input" data-pl-placeholder="np. Bagna Perunowe" data-en-placeholder="e.g. Perun's Marshes" placeholder="np. Bagna Perunowe" />
+              </label>
+              <label class="field">
+                <span class="field-label" data-pl="Typ terenu" data-en="Terrain type">Typ terenu</span>
+                <select name="terrain_type" class="form-select">
+                  <option data-pl="Las" data-en="Forest">Las</option>
+                  <option data-pl="Bagno" data-en="Swamp">Bagno</option>
+                  <option data-pl="Łąka" data-en="Meadow">Łąka</option>
+                  <option data-pl="Góry" data-en="Mountains">Góry</option>
+                  <option data-pl="Ruiny" data-en="Ruins">Ruiny</option>
+                  <option data-pl="Inne" data-en="Other">Inne</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="field">
+              <span class="field-label" data-pl="Efekt na ruch i walkę" data-en="Effect on movement and combat">Efekt na ruch i walkę</span>
+              <textarea name="effect" required rows="3" class="form-input" data-pl-placeholder="Jak teren wpływa na poruszanie się i zasadzki?" data-en-placeholder="How does this terrain affect movement and ambushes?" placeholder="Jak teren wpływa na poruszanie się i zasadzki?"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label" data-pl="Klimat i lore (opcjonalnie)" data-en="Atmosphere and lore (optional)">Klimat i lore (opcjonalnie)</span>
+              <textarea name="lore" rows="2" class="form-input" data-pl-placeholder="Krótki opis miejsca w świecie słowiańskiego folkloru..." data-en-placeholder="Short description of the location in Slavic folklore..." placeholder="Krótki opis miejsca w świecie słowiańskiego folkloru..."></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label" data-pl="Email (opcjonalnie)" data-en="Email (optional)">Email (opcjonalnie)</span>
+              <input type="email" name="email" class="form-input" data-pl-placeholder="twoj@email.com" data-en-placeholder="you@email.com" placeholder="twoj@email.com" />
+            </label>
+
+            <button type="submit" class="btn-outline" data-pl="Wyślij propozycję →" data-en="Submit proposal →">Wyślij propozycję →</button>
+          </form>
+        </div>
+      </details>
+
+      <!-- Monster -->
+      <details class="accordion card" style="margin-bottom:2rem;">
+        <summary class="accordion-header">
+          <span style="font-size:1.25rem;">🐺</span>
+          <span data-pl="Zaproponuj potwora" data-en="Suggest a monster">Zaproponuj potwora</span>
+          <span class="accordion-chevron">▾</span>
+        </summary>
+        <div class="accordion-body">
+          <p style="color:var(--color-text-muted);font-size:0.88rem;margin-bottom:1rem;" data-pl="Znasz istotę ze słowiańskiego folkloru, która powinna trafić do bestiariusza? Opisz ją!" data-en="Know a creature from Slavic folklore that should appear in the bestiary? Describe it!">Znasz istotę ze słowiańskiego folkloru, która powinna trafić do bestiariusza? Opisz ją!</p>
+          <form action={`https://formsubmit.co/${CONTACT_EMAIL}`} method="POST" class="zlv-form">
+            <input type="hidden" name="_subject" value="[ZLAVIA] Propozycja potwora" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="form_type" value="monster" />
+
+            <div class="field-row">
+              <label class="field">
+                <span class="field-label" data-pl="Nazwa potwora" data-en="Monster name">Nazwa potwora</span>
+                <input type="text" name="monster_name" required class="form-input" data-pl-placeholder="np. Południca" data-en-placeholder="e.g. Poludnitsa" placeholder="np. Południca" />
+              </label>
+              <label class="field">
+                <span class="field-label" data-pl="Poziom zagrożenia" data-en="Threat level">Poziom zagrożenia</span>
+                <select name="threat" class="form-select">
+                  <option data-pl="Niski" data-en="Low">Niski</option>
+                  <option data-pl="Średni" data-en="Medium">Średni</option>
+                  <option data-pl="Wysoki" data-en="High">Wysoki</option>
+                  <option data-pl="Legendarny" data-en="Legendary">Legendarny</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="field">
+              <span class="field-label" data-pl="Opis i pochodzenie" data-en="Description and origin">Opis i pochodzenie</span>
+              <textarea name="description" required rows="3" class="form-input" data-pl-placeholder="Skąd pochodzi ta istota w słowiańskim folklorze?" data-en-placeholder="Where does this creature come from in Slavic folklore?" placeholder="Skąd pochodzi ta istota w słowiańskim folklorze?"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label" data-pl="Proponowane zdolności" data-en="Suggested abilities">Proponowane zdolności</span>
+              <textarea name="abilities" required rows="3" class="form-input" data-pl-placeholder="Jakie unikalne zdolności bojowe powinien posiadać?" data-en-placeholder="What unique combat abilities should it have?" placeholder="Jakie unikalne zdolności bojowe powinien posiadać?"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label" data-pl="Email (opcjonalnie)" data-en="Email (optional)">Email (opcjonalnie)</span>
+              <input type="email" name="email" class="form-input" data-pl-placeholder="twoj@email.com" data-en-placeholder="you@email.com" placeholder="twoj@email.com" />
+            </label>
+
+            <button type="submit" class="btn-outline" data-pl="Wyślij propozycję →" data-en="Submit proposal →">Wyślij propozycję →</button>
+          </form>
+        </div>
+      </details>
+
+      <!-- Support -->
+      <section class="card" id="support" style="text-align:center;padding:2rem;">
+        <h3 style="font-size:1.2rem;margin-bottom:0.6rem;" data-pl="Wesprzyj rozwój projektu" data-en="Support the project">Wesprzyj rozwój projektu</h3>
+        <p style="color:var(--color-text-muted);font-size:0.92rem;margin-bottom:1.2rem;" data-pl="Jeśli chcesz przyspieszyć rozwój gry, możesz wesprzeć twórcę." data-en="If you want to speed up development, you can support the creator.">Jeśli chcesz przyspieszyć rozwój gry, możesz wesprzeć twórcę.</p>
+        <a href="https://ko-fi.com" class="btn-gold" target="_blank" rel="noreferrer" data-pl="☕ Postaw kawę" data-en="☕ Buy me a coffee">☕ Postaw kawę</a>
+      </section>
+
+    </div>
+  </main>
+
+  <style>
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.8rem;
+      border: 1px solid rgba(212,175,55,0.5);
+      border-radius: 999px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--color-gold);
+      margin-bottom: 1rem;
+    }
+    .page-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: var(--color-gold);
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .page-lead {
+      max-width: 760px;
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .form-section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Form fields */
+    .zlv-form { display: grid; gap: 0.85rem; }
+    .field { display: grid; gap: 0.35rem; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      color: var(--color-gold);
+    }
+    .form-input {
+      padding: 0.65rem 0.8rem;
+      border-radius: 4px;
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      width: 100%;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-gold);
+    }
+    .form-select {
+      padding: 0.65rem 2.2rem 0.65rem 0.8rem;
+      border-radius: 4px;
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      width: 100%;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23d4af37' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+    }
+    .form-select:focus { outline: none; border-color: var(--color-gold); }
+    .form-success {
+      color: #6fbf6f;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    /* Accordion */
+    .accordion { padding: 0; overflow: hidden; }
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      cursor: pointer;
+      list-style: none;
+      transition: color 0.2s;
+    }
+    .accordion-header::-webkit-details-marker { display: none; }
+    .accordion[open] > .accordion-header,
+    .accordion-header:hover { color: var(--color-gold); }
+    .accordion-chevron { margin-left: auto; transition: transform 0.2s; font-size: 1.1rem; }
+    .accordion[open] .accordion-chevron { transform: rotate(180deg); }
+    .accordion-body {
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid var(--color-border);
+    }
+  </style>
+</Layout>

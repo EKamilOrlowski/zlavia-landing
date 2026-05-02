@@ -1,7 +1,7 @@
 ---
-// Formspree form ID — replace YOUR_FORM_ID with your actual Formspree form ID
-// Get one free at https://formspree.io (no backend needed)
-const FORMSPREE_ID = 'YOUR_FORM_ID';
+// TODO: Wklej tutaj embed Brevo po założeniu konta — patrz ManualToDo.md
+// Brevo: https://app.brevo.com → Contacts → Forms → Create a form → Embed
+const BREVO_EMBED = false; // zmień na true po dodaniu formularza Brevo
 ---
 
 <section id="join" style="padding:6rem 1.5rem;background:linear-gradient(180deg,var(--color-bg-deep) 0%,#1a0c04 50%,var(--color-bg-deep) 100%);">
@@ -21,37 +21,14 @@ const FORMSPREE_ID = 'YOUR_FORM_ID';
           Bądź pierwszym, który pozna tajemnice Zlavia. Żadnego spamu — tylko najważniejsze aktualności.
         </p>
 
-        <!-- Formspree form -->
-        <form
-          id="email-form"
-          action={`https://formspree.io/f/${FORMSPREE_ID}`}
-          method="POST"
-          style="display:flex;flex-direction:column;gap:0.75rem;"
-        >
-          <div style="display:flex;gap:0.5rem;">
-            <input
-              type="email"
-              name="email"
-              required
-              data-pl-placeholder="Twój adres e-mail"
-              data-en-placeholder="Your e-mail address"
-              placeholder="Twój adres e-mail"
-              style="flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--color-border);border-radius:4px;padding:0.75rem 1rem;color:var(--color-text);font-family:'Lora',serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;"
-              onfocus="this.style.borderColor='var(--color-gold)'"
-              onblur="this.style.borderColor='var(--color-border)'"
-            />
-            <button type="submit" class="btn-gold" style="white-space:nowrap;padding:0.75rem 1.25rem;" data-pl="Dołącz" data-en="Join">Dołącz</button>
-          </div>
-          <p style="font-size:0.75rem;color:var(--color-text-muted);font-style:italic;" data-pl="Nie wysyłamy spamu. Możesz wypisać się w dowolnej chwili." data-en="No spam. Unsubscribe at any time.">
-            Nie wysyłamy spamu. Możesz wypisać się w dowolnej chwili.
-          </p>
-        </form>
-
-        <!-- Success message (hidden) -->
-        <div id="form-success" style="display:none;background:rgba(45,80,22,0.2);border:1px solid var(--color-forest);border-radius:4px;padding:1rem;margin-top:0.75rem;">
-          <p style="color:#8bc868;font-family:'Cinzel',serif;font-size:0.9rem;margin:0;" data-pl="✓ Dziękujemy! Będziesz pierwszym, który dowie się o wszystkim." data-en="✓ Thank you! You'll be the first to know.">
-            ✓ Dziękujemy! Będziesz pierwszym, który dowie się o wszystkim.
-          </p>
+        <!-- ═══════════════════════════════════════════════════════
+             TODO: Wklej tutaj embed formularza Brevo
+             Kroki: załóż konto → Contacts → Forms → Create a form
+             Wybierz typ "Embedded" → skopiuj kod → wklej zamiast
+             tego bloku komentarza. Patrz ManualToDo.md po szczegóły.
+             ═══════════════════════════════════════════════════════ -->
+        <div style="background:rgba(212,175,55,0.06);border:1px dashed rgba(212,175,55,0.3);border-radius:6px;padding:1.25rem;text-align:center;">
+          <p style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--color-gold);opacity:0.7;margin:0;" data-pl="Formularz zapisu wkrótce — śledź nas w mediach społecznościowych!" data-en="Signup form coming soon — follow us on social media!">Formularz zapisu wkrótce — śledź nas w mediach społecznościowych!</p>
         </div>
 
         <!-- What you get -->
@@ -112,25 +89,7 @@ const FORMSPREE_ID = 'YOUR_FORM_ID';
 </style>
 
 <script is:inline>
-  // Formspree AJAX submission
-  document.getElementById('email-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    var form = e.target;
-    var data = new FormData(form);
-
-    try {
-      var res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (res.ok) {
-        form.style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-      }
+  // TODO: Brevo embed może wymagać własnego skryptu — wklej go razem z formularzem
+  // Po wklejeniu embeda Brevo usuń ten komentarz i odkomentuj ich kod
     } catch (err) {
-      // Fallback — just submit normally
-      form.submit();
-    }
-  });
 </script>
