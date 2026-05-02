@@ -1,0 +1,210 @@
+---
+import { classes } from '../data/classes';
+import type { GameClass } from '../data/classes';
+
+const statLabels: Record<string, {pl:string, en:string}> = {
+  strength:  { pl: 'Siła',       en: 'Strength'   },
+  maxHealth: { pl: 'Życie',      en: 'Health'     },
+  speed:     { pl: 'Szybkość',   en: 'Speed'      },
+  dexterity: { pl: 'Zręczność',  en: 'Dexterity'  },
+  knowledge: { pl: 'Wiedza',     en: 'Knowledge'  },
+  vitality:  { pl: 'Witalność',  en: 'Vitality'   },
+  armor:     { pl: 'Pancerz',    en: 'Armor'      },
+};
+const statMax: Record<string, number> = {
+  strength: 10, maxHealth: 20, speed: 10,
+  dexterity: 10, knowledge: 10, vitality: 10, armor: 5,
+};
+---
+
+<section id="classes" style="padding:6rem 1.5rem;background:linear-gradient(180deg,var(--color-bg-deep) 0%,var(--color-bg-secondary) 50%,var(--color-bg-deep) 100%);">
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <h2 class="section-title" data-pl="Bohaterowie" data-en="Heroes">Bohaterowie</h2>
+    <p class="section-sub" data-pl="Trzy klasy, dziewięć ścieżek mocy" data-en="Three classes, nine paths of power">Trzy klasy, dziewięć ścieżek mocy</p>
+
+    <!-- Class tabs -->
+    <div style="display:flex;justify-content:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.5rem;">
+      {classes.map((cls, i) => (
+        <button
+          class={`tab-btn class-tab ${i === 0 ? 'active' : ''}`}
+          data-class={cls.id}
+          data-pl={cls.namePl}
+          data-en={cls.nameEn}
+          style={i === 0 ? `border-color:${cls.color};color:${cls.color};background:${cls.color}18;` : ''}
+        >
+          {cls.icon} {cls.namePl}
+        </button>
+      ))}
+    </div>
+
+    <!-- Class panels -->
+    {classes.map((cls, ci) => (
+      <div class="class-panel" data-class={cls.id} style={ci !== 0 ? 'display:none;' : ''}>
+
+        <!-- Class header card -->
+        <div class="card" style="margin-bottom:2rem;border-color:rgba(212,175,55,0.2);">
+          <div style="display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:center;" class="class-header-grid">
+            <!-- Icon -->
+            <div style={`width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:${cls.color}22;border:2px solid ${cls.color}44;flex-shrink:0;`}>
+              {cls.icon}
+            </div>
+            <!-- Description -->
+            <div>
+              <h3 style={`font-family:'Cinzel',serif;font-size:1.75rem;font-weight:700;color:${cls.color};margin-bottom:0.5rem;`} data-pl={cls.namePl} data-en={cls.nameEn}>{cls.namePl}</h3>
+              <p style="color:var(--color-text-muted);font-style:italic;font-size:0.95rem;line-height:1.7;" data-pl={cls.descriptionPl} data-en={cls.descriptionEn}>{cls.descriptionPl}</p>
+            </div>
+            <!-- Stats -->
+            <div style="min-width:200px;" class="class-stats">
+              {Object.entries(cls.baseStats).map(([stat, val]) => {
+                const pct = Math.min(100, Math.round((val / (statMax[stat] || 10)) * 100));
+                return (
+                  <div style="margin-bottom:0.4rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;">
+                      <span style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.08em;color:var(--color-text-muted);" data-pl={statLabels[stat]?.pl ?? stat} data-en={statLabels[stat]?.en ?? stat}>{statLabels[stat]?.pl ?? stat}</span>
+                      <span style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--color-gold);">{val}</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                      <div class="stat-bar-fill" style={`width:${pct}%;background:linear-gradient(to right,${cls.color}88,${cls.color});`}></div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill tree tabs -->
+        <div style="margin-bottom:1rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.15em;color:var(--color-text-muted);text-transform:uppercase;text-align:center;margin-bottom:1rem;" data-pl="Drzewka Umiejętności" data-en="Skill Trees">Drzewka Umiejętności</p>
+          <div style="display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap;" class={`tree-tabs-${cls.id}`}>
+            {cls.trees.map((tree, ti) => (
+              <button
+                class={`tab-btn tree-tab-btn ${ti === 0 ? 'active' : ''}`}
+                data-class={cls.id}
+                data-tree={ti}
+                data-pl={`${tree.icon} ${tree.namePl}`}
+                data-en={`${tree.icon} ${tree.nameEn}`}
+              >
+                {tree.icon} {tree.namePl}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Skill trees -->
+        {cls.trees.map((tree, ti) => (
+          <div class={`tree-panel tree-panel-${cls.id}`} data-tree={ti} style={ti !== 0 ? 'display:none;' : ''}>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+              {tree.skills.map((skill, si) => (
+                <div
+                  class="skill-card card"
+                  tabindex="0"
+                  style="cursor:pointer;position:relative;"
+                  data-desc-pl={skill.description}
+                  data-desc-en={skill.descriptionEn}
+                >
+                  <!-- Skill number -->
+                  <div style={`position:absolute;top:0.75rem;right:0.75rem;width:22px;height:22px;border-radius:50%;background:${cls.color}33;border:1px solid ${cls.color}66;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:0.65rem;color:${cls.color};`}>{si + 1}</div>
+
+                  <!-- Type badge -->
+                  <div style="margin-bottom:0.6rem;">
+                    <span class={`skill-badge skill-badge-${skill.type.toLowerCase()}`} data-pl={skill.type === 'Basic' ? 'Podstawowa' : skill.type === 'Special' ? 'Specjalna' : 'Pasywna'} data-en={skill.type}>{skill.type === 'Basic' ? 'Podstawowa' : skill.type === 'Special' ? 'Specjalna' : 'Pasywna'}</span>
+                  </div>
+
+                  <!-- Skill name -->
+                  <h4 style="font-family:'Cinzel',serif;font-size:0.9rem;font-weight:700;color:var(--color-text);margin-bottom:0.4rem;" data-pl={skill.name} data-en={skill.nameEn}>{skill.name}</h4>
+
+                  <!-- Description (shown on hover) -->
+                  <p class="skill-desc" style="font-size:0.78rem;color:var(--color-text-muted);line-height:1.5;" data-pl={skill.description} data-en={skill.descriptionEn}>{skill.description}</p>
+
+                  <!-- Range & uses footer -->
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(107,74,32,0.3);">
+                    {skill.range && (
+                      <span style="font-size:0.7rem;color:var(--color-text-muted);">
+                        <span data-pl="Zasięg" data-en="Range">Zasięg</span>: <strong style="color:var(--color-amber);">{skill.range}</strong>
+                      </span>
+                    )}
+                    {skill.maxUsesPerBattle && (
+                      <span style="font-size:0.7rem;color:var(--color-text-muted);">
+                        {'⬡'.repeat(skill.maxUsesPerBattle)}
+                      </span>
+                    )}
+                    {!skill.range && !skill.maxUsesPerBattle && (
+                      <span style="font-size:0.7rem;color:var(--color-text-muted);font-style:italic;" data-pl="∞ użyć" data-en="∞ uses">∞ użyć</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+      </div>
+    ))}
+
+  </div>
+</section>
+
+<style>
+  .class-header-grid {
+    grid-template-columns: auto 1fr auto;
+  }
+  @media (max-width: 900px) {
+    .class-header-grid {
+      grid-template-columns: auto 1fr !important;
+    }
+    .class-stats { grid-column: 1 / -1; }
+  }
+  @media (max-width: 600px) {
+    .class-header-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  .skill-card:hover, .skill-card:focus {
+    outline: none;
+    border-color: var(--color-gold) !important;
+  }
+</style>
+
+<script is:inline>
+  // Class tabs
+  document.querySelectorAll('.class-tab').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = btn.getAttribute('data-class');
+
+      // Update tab styles
+      document.querySelectorAll('.class-tab').forEach(function(b) {
+        b.classList.remove('active');
+        b.style.borderColor = '';
+        b.style.color = '';
+        b.style.background = '';
+      });
+      btn.classList.add('active');
+
+      // Show correct panel
+      document.querySelectorAll('.class-panel').forEach(function(p) {
+        p.style.display = p.getAttribute('data-class') === id ? '' : 'none';
+      });
+    });
+  });
+
+  // Skill tree tabs
+  document.querySelectorAll('.tree-tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var clsId = btn.getAttribute('data-class');
+      var treeIdx = btn.getAttribute('data-tree');
+
+      // Update tab active state
+      document.querySelectorAll('.tree-tab-btn[data-class="' + clsId + '"]').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-tree') === treeIdx);
+      });
+
+      // Show correct tree panel
+      document.querySelectorAll('.tree-panel-' + clsId).forEach(function(p) {
+        p.style.display = p.getAttribute('data-tree') === treeIdx ? '' : 'none';
+      });
+    });
+  });
+</script>

@@ -1,0 +1,297 @@
+---
+// Hex map configuration
+// flat-top hexagons, size = radius
+const HEX_SIZE = 38;
+const COLS = 11;
+const ROWS = 7;
+
+type TerrainType = 'forest' | 'meadow' | 'swamp' | 'neutral';
+
+interface HexCell {
+  col: number;
+  row: number;
+  terrain: TerrainType;
+  x: number;
+  y: number;
+}
+
+// Hex grid layout (flat-top)
+function hexToPixel(col: number, row: number, size: number) {
+  const w = size * 2;
+  const h = Math.sqrt(3) * size;
+  const x = col * (w * 0.75) + size;
+  const y = row * h + (col % 2 === 1 ? h / 2 : 0) + size * Math.sqrt(3) / 2;
+  return { x, y };
+}
+
+function hexPoints(cx: number, cy: number, size: number): string {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const angle = (Math.PI / 180) * (60 * i);
+    pts.push(`${cx + size * Math.cos(angle)},${cy + size * Math.sin(angle)}`);
+  }
+  return pts.join(' ');
+}
+
+// Pre-designed terrain map
+const terrainMap: Record<string, TerrainType> = {
+  // Forest cluster (left-top)
+  '0,0': 'forest', '1,0': 'forest', '0,1': 'forest', '1,1': 'forest', '0,2': 'forest', '2,0': 'forest',
+  '1,2': 'forest', '2,1': 'forest',
+  // Meadow swath (middle)
+  '3,0': 'meadow', '4,0': 'meadow', '5,0': 'meadow', '3,1': 'meadow', '4,1': 'meadow',
+  '4,2': 'meadow', '5,2': 'meadow', '3,2': 'meadow', '4,3': 'meadow', '5,3': 'meadow',
+  '5,4': 'meadow', '6,3': 'meadow', '5,1': 'meadow',
+  // Swamp cluster (right-bottom)
+  '7,4': 'swamp', '8,4': 'swamp', '9,4': 'swamp', '10,4': 'swamp',
+  '8,5': 'swamp', '9,5': 'swamp', '10,5': 'swamp',
+  '9,6': 'swamp', '10,6': 'swamp', '8,6': 'swamp',
+  '7,5': 'swamp', '9,3': 'swamp', '10,3': 'swamp',
+  // more forest on right-top
+  '8,0': 'forest', '9,0': 'forest', '10,0': 'forest', '9,1': 'forest', '10,1': 'forest',
+  '10,2': 'forest',
+};
+
+const terrainStyle: Record<TerrainType, { fill: string; stroke: string; hover: string }> = {
+  forest:  { fill: '#1a3a0a', stroke: '#3a6a1a', hover: '#2d5016' },
+  meadow:  { fill: '#2d4a12', stroke: '#5a7a2a', hover: '#4a6a1e' },
+  swamp:   { fill: '#1a2a14', stroke: '#3a5a32', hover: '#2a3e22' },
+  neutral: { fill: '#2a1808', stroke: '#4a2e14', hover: '#3a2210' },
+};
+
+const terrainIcons: Record<TerrainType, string> = {
+  forest:  '🌲',
+  meadow:  '🌿',
+  swamp:   '🌫️',
+  neutral: '⬡',
+};
+
+// Build cell list
+const cells: HexCell[] = [];
+for (let col = 0; col < COLS; col++) {
+  for (let row = 0; row < ROWS; row++) {
+    const key = `${col},${row}`;
+    const terrain: TerrainType = terrainMap[key] ?? 'neutral';
+    const { x, y } = hexToPixel(col, row, HEX_SIZE);
+    cells.push({ col, row, terrain, x, y });
+  }
+}
+
+// SVG viewport size
+const svgWidth = COLS * HEX_SIZE * 1.5 + HEX_SIZE + 10;
+const svgHeight = (ROWS + 0.5) * Math.sqrt(3) * HEX_SIZE + 10;
+---
+
+<section id="hexmap" style="padding:6rem 1.5rem;background:linear-gradient(180deg,var(--color-bg-deep) 0%,#0d1a08 50%,var(--color-bg-deep) 100%);">
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <h2 class="section-title" data-pl="Pole Bitwy" data-en="Battlefield">Pole Bitwy</h2>
+    <p class="section-sub" data-pl="Heksagonalna taktyczna mapa walki" data-en="Hexagonal tactical battle map">Heksagonalna taktyczna mapa walki</p>
+
+    <!-- Terrain legend -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin-bottom:2rem;">
+      {(['forest','meadow','swamp'] as TerrainType[]).map(t => (
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <div style={`width:20px;height:20px;border-radius:3px;background:${terrainStyle[t].fill};border:2px solid ${terrainStyle[t].stroke};`}></div>
+          <span style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--color-text-muted);" data-pl={t === 'forest' ? 'Las' : t === 'meadow' ? 'Łąka' : 'Bagno'} data-en={t === 'forest' ? 'Forest' : t === 'meadow' ? 'Meadow' : 'Swamp'}>
+            {t === 'forest' ? 'Las' : t === 'meadow' ? 'Łąka' : 'Bagno'}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Map + Info panel -->
+    <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;" class="hexmap-grid">
+
+      <!-- SVG Hex Map -->
+      <div style="overflow-x:auto;border:1px solid var(--color-border);border-radius:8px;background:#0a1506;padding:1rem;">
+        <svg
+          id="hex-svg"
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          width={svgWidth}
+          height={svgHeight}
+          style="display:block;max-width:100%;cursor:pointer;"
+          aria-label="Hex battlefield map"
+        >
+          <!-- Subtle grid glow filter -->
+          <defs>
+            <filter id="hex-glow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="hex-glow-strong">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          {cells.map(cell => {
+            const style = terrainStyle[cell.terrain];
+            const pts = hexPoints(cell.x, cell.y, HEX_SIZE - 1.5);
+            const icon = terrainIcons[cell.terrain];
+            return (
+              <>
+                <polygon
+                  class="hex-cell"
+                  points={pts}
+                  fill={style.fill}
+                  stroke={style.stroke}
+                  stroke-width="1"
+                  data-col={cell.col}
+                  data-row={cell.row}
+                  data-terrain={cell.terrain}
+                  data-hover-fill={style.hover}
+                  data-orig-fill={style.fill}
+                />
+                {cell.terrain !== 'neutral' && (
+                  <text
+                    x={cell.x}
+                    y={cell.y + 5}
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    font-size="14"
+                    style="pointer-events:none;user-select:none;"
+                    opacity="0.6"
+                  >{icon}</text>
+                )}
+              </>
+            );
+          })}
+        </svg>
+      </div>
+
+      <!-- Info panel -->
+      <div id="hex-info-panel" class="card" style="min-width:220px;max-width:260px;">
+        <div id="hex-info-icon" style="font-size:3rem;text-align:center;margin-bottom:1rem;">⬡</div>
+        <h3 id="hex-info-name" style="font-family:'Cinzel',serif;font-size:1.1rem;color:var(--color-gold);text-align:center;margin-bottom:0.75rem;"
+            data-pl="Pole walki" data-en="Battlefield">Pole walki</h3>
+        <p id="hex-info-desc" style="font-size:0.85rem;color:var(--color-text-muted);line-height:1.6;text-align:center;"
+           data-pl="Kliknij lub najedź na heks, aby poznać teren" data-en="Click or hover a hex to learn about the terrain">
+          Kliknij lub najedź na heks, aby poznać teren
+        </p>
+        <div id="hex-info-effects" style="margin-top:1rem;display:none;">
+          <div style="height:1px;background:var(--color-border);margin-bottom:0.75rem;"></div>
+          <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.1em;color:var(--color-text-muted);margin-bottom:0.5rem;" data-pl="Efekty terenu" data-en="Terrain effects">Efekty terenu</p>
+          <ul id="hex-info-effects-list" style="list-style:none;padding:0;margin:0;"></ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Hint -->
+    <p style="text-align:center;font-size:0.78rem;color:var(--color-text-muted);margin-top:1.5rem;font-style:italic;" data-pl="Kliknij lub najedź na heks, aby poznać teren" data-en="Click or hover a hex to learn about the terrain">Kliknij lub najedź na heks, aby poznać teren</p>
+
+  </div>
+</section>
+
+<style>
+  .hex-cell { transition: fill 0.2s; }
+  .hex-cell:hover, .hex-cell.selected { fill: var(--hex-hover) !important; filter: url(#hex-glow); }
+  @media (max-width: 900px) {
+    .hexmap-grid { grid-template-columns: 1fr !important; }
+    #hex-info-panel { max-width:100% !important; }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    var lang = localStorage.getItem('zlavia-lang') || 'pl';
+
+    var terrainData = {
+      forest: {
+        icon: '🌲',
+        name: { pl: 'Las', en: 'Forest' },
+        desc: {
+          pl: 'Gęsty bór daje osłonę. Wróg traci 1 punkt zasięgu przy atakach przez las.',
+          en: 'Dense woodland provides cover. Enemy loses 1 range on attacks through forest.'
+        },
+        effects: {
+          pl: ['Osłona — trudniej trafić jednostkę', '+1 koszt ruchu przez las', 'Wróg −1 zasięgu'],
+          en: ['Cover — harder to hit unit', '+1 movement cost through forest', 'Enemy −1 range']
+        }
+      },
+      meadow: {
+        icon: '🌿',
+        name: { pl: 'Łąka', en: 'Meadow' },
+        desc: {
+          pl: 'Otwarta przestrzeń — przyspieszony ruch, brak osłony. Łatwiejszy cel.',
+          en: 'Open ground — faster movement, no cover. An easy target.'
+        },
+        effects: {
+          pl: ['Brak osłony — łatwy cel', 'Normalny koszt ruchu', 'Dobra widoczność dla łuczników'],
+          en: ['No cover — easy target', 'Normal movement cost', 'Good visibility for archers']
+        }
+      },
+      swamp: {
+        icon: '🌫️',
+        name: { pl: 'Bagno', en: 'Swamp' },
+        desc: {
+          pl: 'Zdradliwe trzęsawisko. Wejście kosztuje 2 punkty ruchu. Ryzyko zatrucia.',
+          en: 'Treacherous bog. Entering costs 2 movement points. Risk of poison.'
+        },
+        effects: {
+          pl: ['+2 koszt ruchu', 'Szansa na zatrucie (1 stack)', 'Brak osłony'],
+          en: ['+2 movement cost', 'Poison chance (1 stack)', 'No cover']
+        }
+      },
+      neutral: {
+        icon: '⬡',
+        name: { pl: 'Pole walki', en: 'Battlefield' },
+        desc: {
+          pl: 'Zwykłe pole — brak specjalnych efektów.',
+          en: 'Plain field — no special effects.'
+        },
+        effects: { pl: ['Brak efektów specjalnych'], en: ['No special effects'] }
+      }
+    };
+
+    function updatePanel(terrain) {
+      lang = localStorage.getItem('zlavia-lang') || 'pl';
+      var data = terrainData[terrain] || terrainData.neutral;
+      document.getElementById('hex-info-icon').textContent = data.icon;
+      document.getElementById('hex-info-name').textContent = data.name[lang];
+      document.getElementById('hex-info-desc').textContent = data.desc[lang];
+
+      var effectsEl = document.getElementById('hex-info-effects');
+      var listEl = document.getElementById('hex-info-effects-list');
+      var effs = data.effects[lang] || data.effects.pl;
+      if (effs && effs.length) {
+        effectsEl.style.display = '';
+        listEl.innerHTML = effs.map(function(e) {
+          return '<li style="font-size:0.78rem;color:var(--color-text-muted);padding:0.2rem 0;display:flex;gap:0.4rem;"><span style="color:var(--color-amber);">▸</span>' + e + '</li>';
+        }).join('');
+      } else {
+        effectsEl.style.display = 'none';
+      }
+    }
+
+    var selected = null;
+    document.querySelectorAll('.hex-cell').forEach(function(hex) {
+      hex.addEventListener('mouseenter', function() {
+        if (!selected) {
+          hex.style.fill = hex.getAttribute('data-hover-fill');
+          updatePanel(hex.getAttribute('data-terrain'));
+        }
+      });
+      hex.addEventListener('mouseleave', function() {
+        if (!selected) {
+          hex.style.fill = hex.getAttribute('data-orig-fill');
+        }
+      });
+      hex.addEventListener('click', function() {
+        if (selected) {
+          selected.style.fill = selected.getAttribute('data-orig-fill');
+          selected.classList.remove('selected');
+        }
+        if (selected === hex) {
+          selected = null;
+          return;
+        }
+        selected = hex;
+        hex.style.fill = hex.getAttribute('data-hover-fill');
+        hex.classList.add('selected');
+        updatePanel(hex.getAttribute('data-terrain'));
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'ZLAVIA – Taktyczna Gra Planszowa', description = 'Słowiańska taktyczna gra bitewna. Port 1:1 na PC.' } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="pl" id="html-root">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  </head>
+  <body>
+    <slot />
+
+    <script is:inline>
+      // Language switcher
+      (function() {
+        var stored = localStorage.getItem('zlavia-lang') || 'pl';
+        document.documentElement.setAttribute('data-lang', stored);
+
+        function applyLang(lang) {
+          document.documentElement.setAttribute('data-lang', lang);
+          localStorage.setItem('zlavia-lang', lang);
+          document.querySelectorAll('[data-pl]').forEach(function(el) {
+            el.textContent = lang === 'pl' ? el.getAttribute('data-pl') : el.getAttribute('data-en');
+          });
+          document.querySelectorAll('[data-pl-placeholder]').forEach(function(el) {
+            el.setAttribute('placeholder', lang === 'pl' ? el.getAttribute('data-pl-placeholder') : el.getAttribute('data-en-placeholder'));
+          });
+          document.querySelectorAll('.lang-btn').forEach(function(btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-lang-target') === lang);
+          });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          applyLang(stored);
+          document.querySelectorAll('.lang-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              applyLang(btn.getAttribute('data-lang-target'));
+            });
+          });
+        });
+      })();
+    </script>
+
+    <style is:global>
+      .lang-btn {
+        padding: 0.25rem 0.75rem;
+        font-family: 'Cinzel', serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        border: 1px solid var(--color-border);
+        background: transparent;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        border-radius: 3px;
+        transition: all 0.2s;
+      }
+      .lang-btn.active,
+      .lang-btn:hover {
+        border-color: var(--color-gold);
+        color: var(--color-gold);
+        background: rgba(212,175,55,0.1);
+      }
+    </style>
+  </body>
+</html>

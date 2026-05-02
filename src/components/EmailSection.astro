@@ -1,0 +1,136 @@
+---
+// Formspree form ID — replace YOUR_FORM_ID with your actual Formspree form ID
+// Get one free at https://formspree.io (no backend needed)
+const FORMSPREE_ID = 'YOUR_FORM_ID';
+---
+
+<section id="join" style="padding:6rem 1.5rem;background:linear-gradient(180deg,var(--color-bg-deep) 0%,#1a0c04 50%,var(--color-bg-deep) 100%);">
+  <div style="max-width:900px;margin:0 auto;">
+
+    <!-- Ornamental separator -->
+    <div class="divider" style="margin-bottom:3rem;">
+      <span class="divider-symbol">᛭</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;" class="join-grid">
+
+      <!-- Email signup -->
+      <div>
+        <h2 style="font-family:'Cinzel',serif;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;color:var(--color-gold);margin-bottom:0.5rem;" data-pl="Dołącz do Slavii" data-en="Join Zlavia">Dołącz do Slavii</h2>
+        <p style="color:var(--color-text-muted);font-style:italic;margin-bottom:1.5rem;line-height:1.7;" data-pl="Bądź pierwszym, który pozna tajemnice Zlavia. Żadnego spamu — tylko najważniejsze aktualności." data-en="Be the first to learn the secrets of Zlavia. No spam — only the most important news.">
+          Bądź pierwszym, który pozna tajemnice Zlavia. Żadnego spamu — tylko najważniejsze aktualności.
+        </p>
+
+        <!-- Formspree form -->
+        <form
+          id="email-form"
+          action={`https://formspree.io/f/${FORMSPREE_ID}`}
+          method="POST"
+          style="display:flex;flex-direction:column;gap:0.75rem;"
+        >
+          <div style="display:flex;gap:0.5rem;">
+            <input
+              type="email"
+              name="email"
+              required
+              data-pl-placeholder="Twój adres e-mail"
+              data-en-placeholder="Your e-mail address"
+              placeholder="Twój adres e-mail"
+              style="flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--color-border);border-radius:4px;padding:0.75rem 1rem;color:var(--color-text);font-family:'Lora',serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;"
+              onfocus="this.style.borderColor='var(--color-gold)'"
+              onblur="this.style.borderColor='var(--color-border)'"
+            />
+            <button type="submit" class="btn-gold" style="white-space:nowrap;padding:0.75rem 1.25rem;" data-pl="Dołącz" data-en="Join">Dołącz</button>
+          </div>
+          <p style="font-size:0.75rem;color:var(--color-text-muted);font-style:italic;" data-pl="Nie wysyłamy spamu. Możesz wypisać się w dowolnej chwili." data-en="No spam. Unsubscribe at any time.">
+            Nie wysyłamy spamu. Możesz wypisać się w dowolnej chwili.
+          </p>
+        </form>
+
+        <!-- Success message (hidden) -->
+        <div id="form-success" style="display:none;background:rgba(45,80,22,0.2);border:1px solid var(--color-forest);border-radius:4px;padding:1rem;margin-top:0.75rem;">
+          <p style="color:#8bc868;font-family:'Cinzel',serif;font-size:0.9rem;margin:0;" data-pl="✓ Dziękujemy! Będziesz pierwszym, który dowie się o wszystkim." data-en="✓ Thank you! You'll be the first to know.">
+            ✓ Dziękujemy! Będziesz pierwszym, który dowie się o wszystkim.
+          </p>
+        </div>
+
+        <!-- What you get -->
+        <div style="margin-top:1.5rem;">
+          {[
+            { pl: 'Informacje o premierze gry', en: 'Launch announcements' },
+            { pl: 'Ekskluzywne devlogi', en: 'Exclusive devlogs' },
+            { pl: 'Dostęp do playtestu', en: 'Playtest access' },
+          ].map(item => (
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
+              <span style="color:var(--color-gold);font-size:0.75rem;">✦</span>
+              <span style="font-size:0.85rem;color:var(--color-text-muted);" data-pl={item.pl} data-en={item.en}>{item.pl}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Buy me a coffee -->
+      <div class="card" style="text-align:center;padding:2.5rem 2rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">☕</div>
+        <h3 style="font-family:'Cinzel',serif;font-size:1.4rem;color:var(--color-gold);margin-bottom:0.75rem;" data-pl="Wesprzyj projekt" data-en="Support the project">Wesprzyj projekt</h3>
+        <p style="color:var(--color-text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.5rem;" data-pl="Każda kawa pomaga w tworzeniu Zlavia. Twoje wsparcie napędza dalszy rozwój gry i pozwala mi poświęcić więcej czasu na projekt." data-en="Every coffee helps create Zlavia. Your support drives further development and allows me to dedicate more time to the project.">
+          Każda kawa pomaga w tworzeniu Zlavia. Twoje wsparcie napędza dalszy rozwój gry i pozwala mi poświęcić więcej czasu na projekt.
+        </p>
+        <a
+          href="https://ko-fi.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-gold"
+          style="display:inline-flex;justify-content:center;width:100%;font-size:1.05rem;padding:0.875rem;"
+          data-pl="☕ Postaw kawę" data-en="☕ Buy me a coffee"
+        >
+          ☕ Postaw kawę
+        </a>
+        <p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:1rem;font-style:italic;" data-pl="Jednorazowe wsparcie, żadnych subskrypcji." data-en="One-time support, no subscriptions.">
+          Jednorazowe wsparcie, żadnych subskrypcji.
+        </p>
+
+        <!-- Social links -->
+        <div style="display:flex;justify-content:center;gap:1rem;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid rgba(107,74,32,0.3);">
+          <a href="#" target="_blank" rel="noopener" style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--color-text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--color-gold)'" onmouseout="this.style.color='var(--color-text-muted)'">YouTube</a>
+          <span style="color:var(--color-border);">|</span>
+          <a href="#" target="_blank" rel="noopener" style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--color-text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--color-gold)'" onmouseout="this.style.color='var(--color-text-muted)'">Instagram</a>
+          <span style="color:var(--color-border);">|</span>
+          <a href="#" target="_blank" rel="noopener" style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--color-text-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--color-gold)'" onmouseout="this.style.color='var(--color-text-muted)'">Discord</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @media (max-width: 700px) {
+    .join-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  }
+</style>
+
+<script is:inline>
+  // Formspree AJAX submission
+  document.getElementById('email-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var data = new FormData(form);
+
+    try {
+      var res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      }
+    } catch (err) {
+      // Fallback — just submit normally
+      form.submit();
+    }
+  });
+</script>

@@ -1,0 +1,106 @@
+---
+import { monsters } from '../data/monsters';
+
+const threatColors: Record<string, string> = {
+  low:    '#5a7a2a',
+  medium: '#c8860a',
+  high:   '#b22222',
+  deadly: '#6a0a8a',
+};
+const threatLabels = {
+  low:    { pl: 'Słabe', en: 'Low threat' },
+  medium: { pl: 'Groźne', en: 'Medium threat' },
+  high:   { pl: 'Niebezpieczne', en: 'High threat' },
+  deadly: { pl: 'Śmiercionośne', en: 'Deadly' },
+};
+const statKeys = [
+  { key: 'strength',   pl: 'Siła',       en: 'Strength',    max: 10 },
+  { key: 'maxHealth',  pl: 'PZ',         en: 'HP',          max: 20 },
+  { key: 'speed',      pl: 'Szybkość',   en: 'Speed',       max: 10 },
+  { key: 'dexterity',  pl: 'Zręczność',  en: 'Dexterity',   max: 10 },
+  { key: 'knowledge',  pl: 'Wiedza',     en: 'Knowledge',   max: 10 },
+  { key: 'armor',      pl: 'Pancerz',    en: 'Armor',       max: 5  },
+];
+---
+
+<section id="bestiary" style="padding:6rem 1.5rem;background:linear-gradient(180deg,var(--color-bg-deep) 0%,#150804 50%,var(--color-bg-deep) 100%);">
+  <div style="max-width:1200px;margin:0 auto;">
+
+    <h2 class="section-title" data-pl="Bestiariusz" data-en="Bestiary">Bestiariusz</h2>
+    <p class="section-sub" data-pl="Stworzenia z mroku słowiańskich podań" data-en="Creatures of Slavic darkness">Stworzenia z mroku słowiańskich podań</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;">
+      {monsters.map(m => {
+        const tc = threatColors[m.threat];
+        return (
+          <div class="card beast-card" style="padding:0;overflow:hidden;" tabindex="0">
+
+            <!-- Card header -->
+            <div style={`background:linear-gradient(135deg,${tc}22 0%,transparent 100%);border-bottom:1px solid ${tc}44;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;`}>
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <div style={`width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.75rem;background:${tc}22;border:2px solid ${tc}44;flex-shrink:0;`}>
+                  {m.icon}
+                </div>
+                <div>
+                  <h3 style={`font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:${tc};margin:0;`} data-pl={m.namePl} data-en={m.nameEn}>{m.namePl}</h3>
+                  <p style="font-size:0.75rem;color:var(--color-text-muted);margin:0;font-style:italic;" data-pl={m.descriptionPl} data-en={m.descriptionEn}>{m.descriptionPl}</p>
+                </div>
+              </div>
+              <!-- Threat badge -->
+              <span style={`font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.1em;padding:0.2rem 0.6rem;border-radius:9999px;border:1px solid ${tc};color:${tc};background:${tc}15;white-space:nowrap;`} data-pl={threatLabels[m.threat].pl} data-en={threatLabels[m.threat].en}>{threatLabels[m.threat].pl}</span>
+            </div>
+
+            <!-- Lore -->
+            <div style="padding:1rem 1.5rem;border-bottom:1px solid rgba(107,74,32,0.2);">
+              <p style="font-size:0.82rem;color:var(--color-text-muted);font-style:italic;line-height:1.6;margin:0;" data-pl={`„${m.lore}"`} data-en={`"${m.loreEn}"`}>„{m.lore}"</p>
+            </div>
+
+            <!-- Stats -->
+            <div style="padding:1rem 1.5rem;border-bottom:1px solid rgba(107,74,32,0.2);">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem;">
+                {statKeys.map(s => {
+                  const val = (m.stats as any)[s.key] ?? 0;
+                  const pct = Math.min(100, Math.round((val / s.max) * 100));
+                  return (
+                    <div>
+                      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+                        <span style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.06em;color:var(--color-text-muted);" data-pl={s.pl} data-en={s.en}>{s.pl}</span>
+                        <span style="font-family:'Cinzel',serif;font-size:0.7rem;color:var(--color-amber);">{val}</span>
+                      </div>
+                      <div class="stat-bar-bg">
+                        <div class="stat-bar-fill" style={`width:${pct}%;background:linear-gradient(to right,${tc}88,${tc});`}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <!-- Abilities -->
+            <div style="padding:1rem 1.5rem;">
+              <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.12em;color:var(--color-text-muted);text-transform:uppercase;margin-bottom:0.75rem;" data-pl="Zdolności" data-en="Abilities">Zdolności</p>
+              <div style="display:flex;flex-direction:column;gap:0.4rem;">
+                {m.abilities.map(a => (
+                  <div style="display:flex;align-items:flex-start;gap:0.5rem;">
+                    <span style={`color:${tc};margin-top:2px;flex-shrink:0;`}>▸</span>
+                    <div>
+                      <span style="font-family:'Cinzel',serif;font-size:0.78rem;color:var(--color-text);font-weight:600;" data-pl={a.namePl} data-en={a.nameEn}>{a.namePl}</span>
+                      <span style="font-size:0.75rem;color:var(--color-text-muted);"> — </span>
+                      <span style="font-size:0.75rem;color:var(--color-text-muted);" data-pl={a.descPl} data-en={a.descEn}>{a.descPl}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .beast-card:hover { transform: translateY(-4px); }
+</style>

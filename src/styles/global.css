@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+@import "tailwindcss";
+
+/* ── Slavic colour palette ─────────────────────────────── */
+:root {
+  --color-bg-deep:      #110a05;
+  --color-bg-primary:   #1e1008;
+  --color-bg-secondary: #2c1810;
+  --color-bg-card:      #3a2010;
+  --color-bg-card-hover:#4a2818;
+  --color-gold:         #d4af37;
+  --color-gold-light:   #f0d060;
+  --color-amber:        #c8860a;
+  --color-red-dark:     #8b1a1a;
+  --color-red:          #b22222;
+  --color-forest:       #2d5016;
+  --color-swamp:        #4a6741;
+  --color-meadow:       #5a7a2a;
+  --color-text:         #f5e6d3;
+  --color-text-muted:   #b8a080;
+  --color-border:       #6b4a20;
+  --color-border-gold:  #8b6914;
+}
+
+@theme {
+  --color-bg-deep:      #110a05;
+  --color-bg-primary:   #1e1008;
+  --color-bg-secondary: #2c1810;
+  --color-bg-card:      #3a2010;
+  --color-gold:         #d4af37;
+  --color-gold-light:   #f0d060;
+  --color-amber:        #c8860a;
+  --color-red-dark:     #8b1a1a;
+  --color-red:          #b22222;
+  --color-forest:       #2d5016;
+  --color-swamp:        #4a6741;
+  --color-meadow:       #5a7a2a;
+  --color-slavic-text:  #f5e6d3;
+  --color-muted:        #b8a080;
+  --color-border:       #6b4a20;
+  --font-cinzel:        'Cinzel', serif;
+  --font-lora:          'Lora', serif;
+}
+
+/* ── Base styles ───────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--color-bg-deep);
+  color: var(--color-text);
+  font-family: 'Lora', serif;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cinzel', serif;
+  color: var(--color-gold);
+}
+
+/* ── Ornamental divider ────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem auto;
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+}
+.divider-symbol {
+  color: var(--color-gold);
+  font-size: 1.25rem;
+}
+
+/* ── Parchment card ────────────────────────────────────── */
+.card {
+  background: linear-gradient(135deg, var(--color-bg-card) 0%, var(--color-bg-secondary) 100%);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-3px);
+}
+
+/* ── Gold button ───────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--color-amber) 0%, var(--color-gold) 50%, var(--color-amber) 100%);
+  color: #1a0e08;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s, transform 0.2s;
+  background-size: 200% auto;
+}
+.btn-gold:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--color-gold);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 2px solid var(--color-gold);
+  cursor: pointer;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline:hover {
+  background: var(--color-gold);
+  color: #1a0e08;
+  transform: translateY(-2px);
+}
+
+/* ── Section header ────────────────────────────────────── */
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--color-gold);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+.section-sub {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-family: 'Lora', serif;
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+/* ── Stat bar ──────────────────────────────────────────── */
+.stat-bar-bg {
+  height: 6px;
+  background: var(--color-bg-deep);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--color-amber), var(--color-gold));
+  border-radius: 9999px;
+  transition: width 1s ease;
+}
+
+/* ── Skill badge ───────────────────────────────────────── */
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.skill-badge-basic  { background: rgba(139,26,26,0.3); border: 1px solid var(--color-red-dark); color: #e88; }
+.skill-badge-special{ background: rgba(212,175,55,0.2); border: 1px solid var(--color-gold); color: var(--color-gold); }
+.skill-badge-passive{ background: rgba(45,80,22,0.35); border: 1px solid var(--color-forest); color: #8bc868; }
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
+
+/* ── Tab system ────────────────────────────────────────── */
+.tab-btn {
+  padding: 0.6rem 1.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+.tab-btn.active,
+.tab-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  background: rgba(212,175,55,0.1);
+}
+
+/* ── Hex map terrain ───────────────────────────────────── */
+.hex-forest  { fill: #1a3a0a; stroke: #2d5016; }
+.hex-meadow  { fill: #2d4a12; stroke: #5a7a2a; }
+.hex-swamp   { fill: #1e2e1a; stroke: #4a6741; }
+.hex-forest:hover  { fill: #2d5016; }
+.hex-meadow:hover  { fill: #4a6a1e; }
+.hex-swamp:hover   { fill: #2e4428; }
+
+/* ── Noise texture overlay ─────────────────────────────── */
+.bg-texture {
+  position: relative;
+}
+.bg-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}

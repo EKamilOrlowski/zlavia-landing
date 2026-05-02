@@ -1,0 +1,119 @@
+---
+---
+
+<section id="hero" style="position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+
+  <!-- Background layers -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%, rgba(139,26,26,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(45,80,22,0.12) 0%, transparent 50%), linear-gradient(180deg, #110a05 0%, #1e1008 50%, #110a05 100%);"></div>
+
+  <!-- Animated rune rings (CSS) -->
+  <div class="rune-ring rune-ring-1" aria-hidden="true"></div>
+  <div class="rune-ring rune-ring-2" aria-hidden="true"></div>
+
+  <!-- Decorative border frame -->
+  <div class="hero-frame" aria-hidden="true">
+    <span class="corner corner-tl"></span>
+    <span class="corner corner-tr"></span>
+    <span class="corner corner-bl"></span>
+    <span class="corner corner-br"></span>
+  </div>
+
+  <!-- Content -->
+  <div style="position:relative;z-index:2;text-align:center;padding:2rem 1.5rem;max-width:800px;margin:0 auto;">
+
+    <!-- Pre-title badge -->
+    <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);border-radius:9999px;padding:0.35rem 1rem;margin-bottom:1.5rem;">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--color-gold);animation:pulse 2s infinite;"></span>
+      <span style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.2em;color:var(--color-gold);text-transform:uppercase;" data-pl="Gra Planszowa · Port 1:1 na PC" data-en="Board Game · 1:1 Digital Port">Gra Planszowa · Port 1:1 na PC</span>
+    </div>
+
+    <!-- Main title -->
+    <h1 style="font-family:'Cinzel',serif;font-size:clamp(3.5rem,10vw,7rem);font-weight:900;letter-spacing:0.12em;color:var(--color-gold);text-shadow:0 0 60px rgba(212,175,55,0.4),0 0 120px rgba(212,175,55,0.15);margin:0 0 0.25rem;line-height:1;">
+      ZLAVIA
+    </h1>
+
+    <!-- Ornamental line -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin:0.75rem 0 1.5rem;">
+      <div style="width:80px;height:1px;background:linear-gradient(to right,transparent,var(--color-gold));"></div>
+      <span style="color:var(--color-gold);font-size:1rem;">᛭</span>
+      <div style="width:80px;height:1px;background:linear-gradient(to left,transparent,var(--color-gold));"></div>
+    </div>
+
+    <!-- Tagline -->
+    <p style="font-family:'Cinzel',serif;font-size:clamp(0.9rem,2vw,1.1rem);letter-spacing:0.2em;color:var(--color-text-muted);text-transform:uppercase;margin-bottom:1.5rem;" data-pl="Taktyczna Gra Bitewna" data-en="Tactical Battle Game">Taktyczna Gra Bitewna</p>
+
+    <!-- Subtitle -->
+    <p style="font-family:'Lora',serif;font-size:clamp(1rem,2.5vw,1.2rem);color:var(--color-text);line-height:1.8;max-width:600px;margin:0 auto 2.5rem;font-style:italic;" data-pl="Słowiański świat pełen mroku, magii i honoru. Dowódź drużyną bohaterów na heksagonalnym polu bitwy." data-en="A Slavic world of darkness, magic and honour. Lead your party of heroes across a hexagonal battlefield.">Słowiański świat pełen mroku, magii i honoru. Dowódź drużyną bohaterów na heksagonalnym polu bitwy.</p>
+
+    <!-- CTA buttons -->
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem;">
+      <a href="#join" class="btn-gold" style="font-size:1rem;padding:0.875rem 2.25rem;" data-pl="📜 Zapisz się na listę" data-en="📜 Join the list">📜 Zapisz się na listę</a>
+      <a href="https://ko-fi.com" target="_blank" rel="noopener" class="btn-outline" style="font-size:1rem;padding:0.875rem 2.25rem;" data-pl="☕ Postaw kawę" data-en="☕ Buy me a coffee">☕ Postaw kawę</a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <a href="#about" style="display:inline-flex;flex-direction:column;align-items:center;gap:0.5rem;text-decoration:none;color:var(--color-text-muted);font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;animation:float 3s ease-in-out infinite;">
+      <span data-pl="Poznaj świat Slavii" data-en="Discover the world of Zlavia">Poznaj świat Slavii</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Bottom gradient fade -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:150px;background:linear-gradient(transparent,var(--color-bg-deep));pointer-events:none;"></div>
+</section>
+
+<style>
+  /* Rune rings */
+  .rune-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.08);
+    animation: spin linear infinite;
+    pointer-events: none;
+  }
+  .rune-ring-1 {
+    width: min(700px, 90vw);
+    height: min(700px, 90vw);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-duration: 80s;
+    border-style: dashed;
+  }
+  .rune-ring-2 {
+    width: min(500px, 70vw);
+    height: min(500px, 70vw);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-duration: 50s;
+    animation-direction: reverse;
+    border-color: rgba(139,26,26,0.12);
+  }
+
+  /* Corner decorations */
+  .hero-frame { position: absolute; inset: 2rem; pointer-events: none; }
+  .corner {
+    position: absolute;
+    width: 30px; height: 30px;
+    border-color: rgba(212,175,55,0.3);
+    border-style: solid;
+  }
+  .corner-tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+  .corner-tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+  .corner-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+  .corner-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+---
+
+<section id="about" style="padding:6rem 1.5rem;background:linear-gradient(180deg,var(--color-bg-deep) 0%,var(--color-bg-primary) 50%,var(--color-bg-deep) 100%);">
+  <div style="max-width:1100px;margin:0 auto;">
+
+    <h2 class="section-title" data-pl="Świat Slavii" data-en="The World of Zlavia">Świat Slavii</h2>
+    <p class="section-sub" data-pl="Gdzie bogowie milczą, a bohaterowie walczą" data-en="Where gods are silent and heroes fight">Gdzie bogowie milczą, a bohaterowie walczą</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-bottom:4rem;" class="about-grid">
+      <div>
+        <p style="color:var(--color-text);font-size:1.05rem;line-height:1.9;margin-bottom:1.25rem;" data-pl="Zlavia to taktyczna gra bitewna osadzona w świecie inspirowanym słowiańskim folklorem, mitologią i kulturą. Każda bitwa rozgrywa się na heksagonalnej planszy, gdzie każdy ruch i każda decyzja ma znaczenie." data-en="Zlavia is a tactical battle game set in a world inspired by Slavic folklore, mythology and culture. Each battle takes place on a hexagonal board where every move and every decision matters.">
+          Zlavia to taktyczna gra bitewna osadzona w świecie inspirowanym słowiańskim folklorem, mitologią i kulturą. Każda bitwa rozgrywa się na heksagonalnej planszy, gdzie każdy ruch i każda decyzja ma znaczenie.
+        </p>
+        <p style="color:var(--color-text-muted);font-size:1rem;line-height:1.9;font-style:italic;" data-pl="Wybierz bohatera, opanuj drzewka umiejętności, staw czoła mrocznym stworzeniom ze słowiańskiego bestiariusza. Graj solo lub z drużyną do 4 graczy." data-en="Choose your hero, master skill trees, and face dark creatures from a Slavic bestiary. Play solo or with a party of up to 4 players.">
+          Wybierz bohatera, opanuj drzewka umiejętności, staw czoła mrocznym stworzeniom ze słowiańskiego bestiariusza. Graj solo lub z drużyną do 4 graczy.
+        </p>
+      </div>
+
+      <!-- Stats grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        {[
+          { pl: '3', en: '3', labelPl: 'Klasy', labelEn: 'Classes', icon: '⚔️' },
+          { pl: '9', en: '9', labelPl: 'Drzewka', labelEn: 'Skill Trees', icon: '🌿' },
+          { pl: '1–4', en: '1–4', labelPl: 'Graczy', labelEn: 'Players', icon: '👥' },
+          { pl: '60+', en: '60+', labelPl: 'Umiejętności', labelEn: 'Skills', icon: '✨' },
+        ].map(s => (
+          <div class="card" style="text-align:center;padding:1.25rem;">
+            <div style="font-size:1.75rem;margin-bottom:0.5rem;">{s.icon}</div>
+            <div style="font-family:'Cinzel',serif;font-size:2rem;font-weight:900;color:var(--color-gold);">{s.pl}</div>
+            <div style="font-size:0.8rem;color:var(--color-text-muted);font-family:'Cinzel',serif;letter-spacing:0.1em;" data-pl={s.labelPl} data-en={s.labelEn}>{s.labelPl}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Feature cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
+      {[
+        { icon: '⚔️', pl: 'System kart', en: 'Card system', descPl: 'Każda umiejętność to karta z unikalnymi regułami i efektami', descEn: 'Each skill is a card with unique rules and effects' },
+        { icon: '🎲', pl: 'Taktyczne tury', en: 'Tactical turns', descPl: 'Planuj każdy ruch — szybkość, zasięg i combo decydują o zwycięstwie', descEn: 'Plan every move — speed, range and combos decide the victory' },
+        { icon: '🌿', pl: 'Słowiański lore', en: 'Slavic lore', descPl: 'Bestie, bogowie i rytuały wprost z dawnych podań', descEn: 'Beasts, gods and rituals straight from ancient tales' },
+        { icon: '🗺️', pl: 'Port 1:1 na PC', en: '1:1 digital port', descPl: 'Pełna wierność mechanik między wersją planszową a cyfrową', descEn: 'Full mechanical fidelity between board and digital versions' },
+      ].map(f => (
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">{f.icon}</div>
+          <h3 style="font-family:'Cinzel',serif;font-size:1rem;color:var(--color-gold);margin-bottom:0.5rem;font-weight:700;" data-pl={f.pl} data-en={f.en}>{f.pl}</h3>
+          <p style="font-size:0.875rem;color:var(--color-text-muted);line-height:1.6;" data-pl={f.descPl} data-en={f.descEn}>{f.descPl}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr !important; }
+  }
+</style>

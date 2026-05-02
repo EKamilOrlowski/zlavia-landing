@@ -1,17 +1,33 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import AboutSection from '../components/AboutSection.astro';
+import VideoSection from '../components/VideoSection.astro';
+import ClassesSection from '../components/ClassesSection.astro';
+import BestiarySection from '../components/BestiarySection.astro';
+import HexMapSection from '../components/HexMapSection.astro';
+import EmailSection from '../components/EmailSection.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="ZLAVIA – Słowiańska Taktyczna Gra Planszowa" description="Zlavia to taktyczna gra bitewna osadzona w świecie słowiańskiego folkloru. Port 1:1 na PC.">
+  <Nav />
+  <main>
+    <Hero />
+    <AboutSection />
+    <VideoSection />
+    <ClassesSection />
+    <BestiarySection />
+    <HexMapSection />
+    <EmailSection />
+  </main>
+
+  <footer style="background:var(--color-bg-deep);border-top:1px solid rgba(107,74,32,0.3);padding:2.5rem 1.5rem;text-align:center;">
+    <div style="max-width:1200px;margin:0 auto;">
+      <p style="font-family:'Cinzel',serif;font-size:1.5rem;font-weight:900;color:var(--color-gold);letter-spacing:0.12em;margin-bottom:0.5rem;">ZLAVIA</p>
+      <p style="font-size:0.8rem;color:var(--color-text-muted);font-style:italic;margin-bottom:1rem;" data-pl="Stworzono z pasją do słowiańskiej kultury" data-en="Made with passion for Slavic culture">Stworzono z pasją do słowiańskiej kultury</p>
+      <p style="font-size:0.75rem;color:var(--color-text-muted);" data-pl="© 2026 Zlavia. Wszelkie prawa zastrzeżone." data-en="© 2026 Zlavia. All rights reserved.">© 2026 Zlavia. Wszelkie prawa zastrzeżone.</p>
+    </div>
+  </footer>
+</Layout>
+
